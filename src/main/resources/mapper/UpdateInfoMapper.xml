@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//www.mybatis.org//DTD Mapper 3.0//EN"
+		"svthttp://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--新建实体映射文件Test.xml，这里的namespace就是写TestMapper全类名，否则不能使用动态代理的方式调用接口TestMapper-->
+<mapper namespace="com.sv.serv.dao.UpdateInfoMapper">
+	<resultMap id="UpdateInfoMap" type="com.sv.serv.model.UpdateInfo">
+		<!--主键字段的对应 -->
+		<id property="ToolName" javaType="String" jdbcType="VARCHAR" column="ToolName"/>
+		<!--非主键字段的对应-->
+		<result property="DownLoadPath" javaType="String" jdbcType="VARCHAR" column="DownLoadPath"/>
+		<result property="UpdateNotice" javaType="String" jdbcType="VARCHAR" column="UpdateNotice"/>
+		<result property="UpdateType" javaType="String" jdbcType="VARCHAR" column="UpdateType"/>
+		<result property="FileSize" javaType="String" jdbcType="VARCHAR" column="FileSize"/>
+		<result property="Version" javaType="String" jdbcType="VARCHAR" column="Version"/>
+		<result property="UpdateTime" javaType="String" jdbcType="VARCHAR" column="UpdateTime"/>
+		<result property="Code" javaType="String" jdbcType="VARCHAR" column="Code"/>
+	</resultMap>
+	<select id="list" resultMap="UpdateInfoMap">
+		SELECT *
+		FROM UpdateInfo
+	</select>
+	<select id="count" resultType="Integer">
+		SELECT count(*)
+		FROM UpdateInfo
+	</select>
+	<select id="select" parameterType="com.sv.serv.model.UpdateInfo" resultMap="UpdateInfoMap">
+		SELECT
+		<trim prefix="" suffixOverrides=",">
+			<if test="ToolName!=null">ToolName,</if>
+			<if test="DownLoadPath!=null">DownLoadPath,</if>
+			<if test="UpdateNotice!=null">UpdateNotice,</if>
+			<if test="UpdateType!=null">UpdateType,</if>
+			<if test="UpdateTime!=null">UpdateTime,</if>
+			<if test="FileSize!=null">FileSize,</if>
+			<if test="Version!=null">Version,</if>
+			<if test="Code!=null">Code,</if>
+		</trim>
+		FROM UpdateInfo
+		WHERE ToolName = #{ToolName}
+	</select>
+	<insert id="insert" parameterType="com.sv.serv.model.UpdateInfo">
+		INSERT INTO UpdateInfo
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="ToolName!=null">ToolName,</if>
+			<if test="DownLoadPath!=null">DownLoadPath,</if>
+			<if test="UpdateNotice!=null">UpdateNotice,</if>
+			<if test="UpdateType!=null">UpdateType,</if>
+			<if test="UpdateTime!=null">UpdateTime,</if>
+			<if test="FileSize!=null">FileSize,</if>
+			<if test="Version!=null">Version,</if>
+			<if test="Code!=null">Code,</if>
+		</trim>
+		<trim prefix="VALUES(" suffix=")" suffixOverrides=",">
+			<if test="ToolName!=null">ToolName=#{ToolName},</if>
+			<if test="DownLoadPath!=null">DownLoadPath=#{DownLoadPath},</if>
+			<if test="UpdateNotice!=null">UpdateNotice=#{UpdateNotice},</if>
+			<if test="UpdateContent!=null">UpdateContent=#{UpdateContent},</if>
+			<if test="UpdateType!=null">UpdateType=#{UpdateType},</if>
+			<if test="UpdateTime!=null">UpdateTime=#{UpdateTime},</if>
+			<if test="FileSize!=null">FileSize=#{FileSize},</if>
+			<if test="Version!=null">Version=#{Version},</if>
+			<if test="Code!=null">Code=#{Code},</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="com.sv.serv.model.UpdateInfo">
+		UPDATE UpdateInfo
+		<trim prefix="set" suffixOverrides=",">
+			<if test="DownLoadPath!=null">DownLoadPath=#{DownLoadPath},</if>
+			<if test="UpdateNotice!=null">UpdateNotice=#{UpdateNotice},</if>
+			<if test="UpdateType!=null">UpdateType=#{UpdateType},</if>
+			<if test="UpdateTime!=null">UpdateTime=#{UpdateTime},</if>
+			<if test="FileSize!=null">FileSize=#{FileSize},</if>
+			<if test="Version!=null">Version=#{Version},</if>
+			<if test="Code!=null">Code=#{Code},</if>
+		</trim>
+		WHERE ToolName=#{ToolName}
+	</update>
+	<delete id="delete" parameterType="com.sv.serv.model.UpdateInfo">
+		DELETE
+		FROM UpdateInfo
+		WHERE ToolName = #{ToolName}
+	</delete>
+</mapper>

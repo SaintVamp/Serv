@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//www.mybatis.org//DTD Mapper 3.0//EN"
+		"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sv.serv.dao.SvDataMapper">
+	<resultMap id="SvDataMap" type="com.sv.serv.model.SvData">
+		<!--主键字段的对应 -->
+		<id property="authCode" javaType="String" jdbcType="VARCHAR" column="authCode"/>
+		<!--非主键字段的对应-->
+		<result property="qqNum" javaType="String" jdbcType="VARCHAR" column="qqNum"/>
+		<result property="device" javaType="String" jdbcType="VARCHAR" column="device"/>
+		<result property="startDt" javaType="String" jdbcType="VARCHAR" column="startDt"/>
+		<result property="endDt" javaType="String" jdbcType="VARCHAR" column="endDt"/>
+		<result property="localIp" javaType="String" jdbcType="VARCHAR" column="localIp"/>
+		<result property="updateDt" javaType="String" jdbcType="VARCHAR" column="updateDt"/>
+		<result property="version" javaType="String" jdbcType="VARCHAR" column="version"/>
+		<result property="game" javaType="String" jdbcType="VARCHAR" column="game"/>
+		<result property="price" javaType="Integer" jdbcType="INTEGER" column="price"/>
+	</resultMap>
+	<select id="list" resultMap="SvDataMap">
+		SELECT *
+		FROM SvData
+	</select>
+	<select id="count" resultType="Integer">
+		SELECT count(*)
+		FROM SvData
+	</select>
+
+	<select id="select" parameterType="com.sv.serv.model.SvData" resultMap="SvDataMap">
+		SELECT
+		<trim prefix="" suffixOverrides=",">
+			<if test="authCode!=null">authCode,</if>
+			<if test="qqNum!=null">qqNum,</if>
+			<if test="device!=null">device,</if>
+			<if test="startDt!=null">startDt,</if>
+			<if test="endDt!=null">endDt,</if>
+			<if test="localIp!=null">localIp,</if>
+			<if test="updateDt!=null">updateDt,</if>
+			<if test="version!=null">version,</if>
+			<if test="game!=null">game,</if>
+			<if test="price!=0">price,</if>
+		</trim>
+		FROM SvData
+		<where>
+			<if test="authCode!=null and authCode!=''">authCode = #{authCode}</if>
+			<if test="qqNum!=null and qqNum!=''">and qqNum = #{qqNum}</if>
+			<if test="device!=null and device!=''">and device = #{device}</if>
+			<if test="startDt!=null and startDt!=''">and startDt = #{startDt}</if>
+			<if test="endDt!=null and endDt!=''">and endDt = #{endDt}</if>
+			<if test="localIp!=null and localIp!=''">and localIp = #{localIp}</if>
+			<if test="updateDt!=null and updateDt!=''">and updateDt = #{updateDt}</if>
+			<if test="version!=null and version!=''">and version = #{version}</if>
+			<if test="game!=null and game!=''">and game = #{game}</if>
+			<if test="price!=0 and price!=999999">and price = #{price}</if>
+		</where>
+
+	</select>
+	<insert id="insert" parameterType="com.sv.serv.model.SvData">
+		INSERT INTO SvData
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="authCode!=null">authCode,</if>
+			<if test="qqNum!=null">qqNum,</if>
+			<if test="device!=null">device,</if>
+			<if test="startDt!=null">startDt,</if>
+			<if test="endDt!=null">endDt,</if>
+			<if test="localIp!=null">localIp,</if>
+			<if test="updateDt!=null">updateDt,</if>
+			<if test="version!=null">version,</if>
+			<if test="game!=null">game,</if>
+			<if test="price!=0">price,</if>
+		</trim>
+		<trim prefix="VALUES(" suffix=")" suffixOverrides=",">
+			<if test="authCode!=null">#{authCode},</if>
+			<if test="qqNum!=null">#{qqNum},</if>
+			<if test="device!=null">#{device},</if>
+			<if test="startDt!=null">#{startDt},</if>
+			<if test="endDt!=null">#{endDt},</if>
+			<if test="localIp!=null">#{localIp},</if>
+			<if test="updateDt!=null">#{updateDt},</if>
+			<if test="version!=null">#{version},</if>
+			<if test="game!=null">#{game},</if>
+			<if test="price!=0">#{price},</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="com.sv.serv.model.SvData">
+		UPDATE SvData
+		<trim prefix="set" suffixOverrides=",">
+			<if test="qqNum!=null">qqNum = #{qqNum},</if>
+			<if test="device!=null">device = #{device},</if>
+			<if test="startDt!=null">startDt = #{startDt},</if>
+			<if test="endDt!=null">endDt = #{endDt},</if>
+			<if test="localIp!=null">localIp = #{localIp},</if>
+			<if test="updateDt!=null">updateDt = #{updateDt},</if>
+			<if test="version!=null">version = #{version},</if>
+			<if test="game!=null">game = #{game},</if>
+			<if test="price!=0">price = price + #{price},</if>
+		</trim>
+		WHERE authCode = #{authCode}
+	</update>
+	<delete id="delete" parameterType="com.sv.serv.model.SvData">
+		DELETE
+		FROM SvData
+		WHERE authCode = #{authCode}
+	</delete>
+</mapper>
