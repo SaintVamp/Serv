@@ -8,7 +8,6 @@ pipeline {
         stage('a') {
             steps {
                 sh "java -version"
-
                 sh "mvn -v"
                 echo "________________________"
                 echo "++++++++++++++"
@@ -26,6 +25,11 @@ pipeline {
         stage('c') {
             steps {
                 sleep 1
+            }
+        }
+        stage('通知邮件') {
+            steps {
+                emailext body: '$DEFAULT_CONTENT', recipientProviders: [[$class: 'RequesterRecipientProvider']], subject: '$DEFAULT_SUBJECT'
             }
         }
 
