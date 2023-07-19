@@ -3,6 +3,12 @@ pipeline {
     stages {
         stage('a') {
             steps {
+                sh "java -version"
+
+                sh "mvn -v"
+                echo "________________________"
+                echo "++++++++++++++"
+
                 sh "mvn package"
             }
         }
