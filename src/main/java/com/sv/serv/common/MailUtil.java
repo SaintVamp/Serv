@@ -11,7 +11,7 @@ public class MailUtil {
 	static String HOST = "smtp.163.com"; // smtp服务器
 	static String FROM = "wp2sy001@163.com"; // 发件人地址
 	static String USER = "wp2sy001@163.com"; // 用户名
-	static String PWD = "wp2sy1314"; // 163的授权码
+	static String PWD = "BCEOIZRBXAGBMLMR"; // 163的授权码
 	static String[] TOS = new String[]{ "wp2sy001@163.com" };
 
 

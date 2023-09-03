@@ -65,19 +65,20 @@ public class CommonController {
 		log.info( "start tablet success" );
 		return result;
 	}
+
 	@RequestMapping(value = "/wol")
 	public ResponseData wol ( HttpServletRequest request ) {
 		ResponseData result = new ResponseData( ResponseCode.SUCCESS, ResponseCode.SUCCESS_DESC );
-		String wol ="" ;
+		String wol = "";
 		switch ( request.getParameter( "mac" ) ) {
 			case "1":
-				wol="2c600ce84990";
+				wol = "2c600ce84990";
 				break;
 			case "2":
-				wol="0862664c59cb";
+				wol = "0862664c59cb";
 				break;
 			case "3":
-				wol="00E07025B55B";
+				wol = "00E07025B55B";
 				break;
 		}
 		result.setData( "启动设备：" + tabletOnLan( wol ) );
@@ -92,14 +93,32 @@ public class CommonController {
 		try {
 			String domain = request.getParameter( "domain" );
 			String ip = request.getParameter( "ip" );
-			SwitchInfo switchInfo = new SwitchInfo( domain, ip, "" );
+			SwitchInfo switchInfo = new SwitchInfo( "fun-"+domain, ip, "" );
 			log.info( "ddns param is > " + switchInfo );
 			switchServ.setSwitch( switchInfo );
 			MailUtil.sendEmail( "【DDNS Change】", domain + " ip is " + ip );
 			log.info( "ddns success" );
+			System.out.println( "ddns success" );
 		} catch ( Exception e ) {
 			e.printStackTrace();
 			log.error( "ddns has error > " + e.getMessage() );
+		}
+		return result;
+	}
+
+	@RequestMapping(value = "/ipv6")
+	public ResponseData ipv6 ( HttpServletRequest request ) {
+		ResponseData result = new ResponseData( ResponseCode.SUCCESS, ResponseCode.SUCCESS_DESC );
+		try {
+			String domain = request.getParameter( "domain" );
+			String ip = request.getParameter( "ip" );
+			SwitchInfo switchInfo = new SwitchInfo( "ip-"+domain, ip, "" );
+			log.info( "ipv6 param is > " + switchInfo );
+			switchServ.setSwitch( switchInfo );
+			log.info( "ipv6 success" );
+		} catch ( Exception e ) {
+			e.printStackTrace();
+			log.error( "ipv6 has error > " + e.getMessage() );
 		}
 		return result;
 	}
@@ -110,7 +129,7 @@ public class CommonController {
 		try {
 			String name = request.getParameter( "name" );
 			log.info( "computerStart > " + name );
-			MailUtil.sendEmail( "【NAS Start】", name + " has start." );
+			MailUtil.sendEmail( "【" + name + " Start】", name + " has start." );
 			log.info( "computerStart success" );
 		} catch ( Exception e ) {
 			e.printStackTrace();
@@ -118,13 +137,14 @@ public class CommonController {
 		}
 		return result;
 	}
+
 	@RequestMapping(value = "/computerStop")
 	public ResponseData computerStop ( HttpServletRequest request ) {
 		ResponseData result = new ResponseData( ResponseCode.SUCCESS, ResponseCode.SUCCESS_DESC );
 		try {
 			String name = request.getParameter( "name" );
 			log.info( "computerStop > " + name );
-			MailUtil.sendEmail( "【NAS Stop】", name + " has stop." );
+			MailUtil.sendEmail( "【" + name + " Stop】", name + " has stop." );
 			log.info( "computerStop success" );
 		} catch ( Exception e ) {
 			e.printStackTrace();
