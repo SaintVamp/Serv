@@ -69,18 +69,12 @@ public class CommonController {
     @RequestMapping(value = "/wol")
     public ResponseData wol(HttpServletRequest request) {
         ResponseData result = new ResponseData(ResponseCode.SUCCESS, ResponseCode.SUCCESS_DESC);
-        String wol = "";
-        switch (request.getParameter("mac")) {
-            case "1":
-                wol = "2c600ce84990";
-                break;
-            case "2":
-                wol = "0862664c59cb";
-                break;
-            case "3":
-                wol = "00E07025B55B";
-                break;
-        }
+        String wol = switch (request.getParameter("mac")) {
+            case "1" -> "2c600ce84990";
+            case "2" -> "0862664c59cb";
+            case "3" -> "00E07025B55B";
+            default -> "";
+        };
         result.setData("启动设备：" + tabletOnLan(wol));
         log.info("start computer success");
         return result;
@@ -99,8 +93,7 @@ public class CommonController {
             MailUtil.sendEmail("【DDNS Change】", domain + " ip is " + ip);
             log.info("ddns success");
         } catch (Exception e) {
-            e.printStackTrace();
-            log.error("ddns has error > " + e.getMessage());
+            log.error("ddns has error > " + e);
         }
         return result;
     }
@@ -110,11 +103,23 @@ public class CommonController {
         ResponseData result = new ResponseData(ResponseCode.SUCCESS, ResponseCode.SUCCESS_DESC);
         try {
             String bookName = request.getParameter("bookName");
-            MailUtil.sendEmail("【书籍下载完毕通知】", "【" + bookName + "】下载完毕 ");
-            log.info("notice success");
+            MailUtil.sendEmail("【书籍下载完毕通知】", "【" + bookName + "】下载完毕。");
+            log.info("bookDownloadNotice success");
         } catch (Exception e) {
-            e.printStackTrace();
-            log.error("notice has error > " + e.getMessage());
+            log.error("bookDownloadNotice has error > " + e);
+        }
+        return result;
+    }
+
+    @RequestMapping(value = "/bookFinish")
+    public ResponseData bookFinish(HttpServletRequest request) {
+        ResponseData result = new ResponseData(ResponseCode.SUCCESS, ResponseCode.SUCCESS_DESC);
+        try {
+            String bookName = request.getParameter("bookName");
+            MailUtil.sendEmail("【书籍完本通知】", "【" + bookName + "】疑似完本，请确认。");
+            log.info("bookFinish success");
+        } catch (Exception e) {
+            log.error("bookFinish has error > " + e);
         }
         return result;
     }
@@ -130,8 +135,7 @@ public class CommonController {
             switchServ.setSwitch(switchInfo);
             log.info("ipv6 success");
         } catch (Exception e) {
-            e.printStackTrace();
-            log.error("ipv6 has error > " + e.getMessage());
+            log.error("ipv6 has error > " + e);
         }
         return result;
     }
@@ -145,8 +149,7 @@ public class CommonController {
             MailUtil.sendEmail("【" + name + " Start】", name + " has start.");
             log.info("computerStart success");
         } catch (Exception e) {
-            e.printStackTrace();
-            log.error("computerStart has error > " + e.getMessage());
+            log.error("computerStart has error > " + e);
         }
         return result;
     }
@@ -160,8 +163,7 @@ public class CommonController {
             MailUtil.sendEmail("【" + name + " Stop】", name + " has stop.");
             log.info("computerStop success");
         } catch (Exception e) {
-            e.printStackTrace();
-            log.error("computerStop has error > " + e.getMessage());
+            log.error("computerStop has error > " + e);
         }
         return result;
     }
@@ -184,9 +186,8 @@ public class CommonController {
             response.getOutputStream().flush();
             response.getOutputStream().close();
         } catch (IOException e) {
-            e.printStackTrace();
             msg = "ERROR";
-            log.error("download has error > " + e.getMessage());
+            log.error("download has error > " + e);
         }
         return msg;
     }
@@ -231,9 +232,8 @@ public class CommonController {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
             msg = "ERROR";
-            log.error("upload has error > " + e.getMessage());
+            log.error("upload has error > " + e);
         }
         return msg;
     }
@@ -295,9 +295,8 @@ public class CommonController {
             osw.close();
             log.info("addLogs file success");
         } catch (Exception e) {
-            e.printStackTrace();
             msg = "ERROR";
-            log.error("addLogs has error > " + e.getMessage());
+            log.error("addLogs has error > " + e);
         }
         return msg;
     }
@@ -315,13 +314,13 @@ public class CommonController {
             input = new FileInputStream(file);
             data = IOUtils.toByteArray(input);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("getFileByteArray has error > " + e);
         } finally {
             if (null != input) {
                 try {
                     input.close();
                 } catch (IOException e1) {
-                    e1.printStackTrace();
+                    log.error("getFileByteArray has error > " + e1);
                 }
             }
         }
