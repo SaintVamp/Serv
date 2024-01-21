@@ -98,6 +98,20 @@ public class CommonController {
         return result;
     }
 
+    @RequestMapping(value = "/torrents")
+    public ResponseData torrents(HttpServletRequest request) {
+        ResponseData result = new ResponseData(ResponseCode.SUCCESS, ResponseCode.SUCCESS_DESC);
+        try {
+            String name = request.getParameter("name");
+            String tracker = request.getParameter("tracker");
+            MailUtil.sendEmail("【Torrent Download Finish】", name + " has finished, tracker is " + tracker);
+            log.info("tracker success");
+        } catch (Exception e) {
+            log.error("tracker has error > " + e);
+        }
+        return result;
+    }
+
     @RequestMapping(value = "/bookDownloadNotice")
     public ResponseData bookDownloadNotice(HttpServletRequest request) {
         ResponseData result = new ResponseData(ResponseCode.SUCCESS, ResponseCode.SUCCESS_DESC);
